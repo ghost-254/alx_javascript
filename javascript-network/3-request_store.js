@@ -28,7 +28,5 @@ request.get(url, (error, response, body) => {
       console.error(`Error writing to file: ${writeError.message}`);
       process.exit(1);
     }
-
-    console.log();
   });
 });
