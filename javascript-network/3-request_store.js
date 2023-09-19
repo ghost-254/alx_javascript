@@ -29,6 +29,6 @@ request.get(url, (error, response, body) => {
       process.exit(1);
     }
 
-    console.log(body);
+    console.log();
   });
 });
