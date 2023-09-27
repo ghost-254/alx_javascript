@@ -14,7 +14,39 @@
         </form>
     <br>
     <h1>Cookies</h1>
-    <button onclick="showCookies()">Show the cookies</button>
-    <script src="src/main.js"></script>
+        <button onclick="showCookies()">Show the cookies</button>
+    <script>
+        // Function to set cookies
+        function setCookies() {
+            const firstnameInput = document.getElementById('firstname');
+            const emailInput = document.getElementById('email');
+            
+            // Setting the cookies with their respective values
+            document.cookie = `firstname=${firstnameInput.value}`;
+            document.cookie = `email=${emailInput.value}`;
+        }
+
+        // Function to show cookies
+        function showCookies() {
+            const cookiesParagraph = document.createElement('p');
+            
+            // Getting the cookies
+            const cookies = document.cookie.split(';');
+            
+            // Initializing a variable to store the cookie text
+            let cookieText = 'Cookies: ';
+
+            // Looping through the cookies and append them to the text
+            cookies.forEach(cookie => {
+                cookieText += cookie.trim() + ' ';
+            });
+
+            // Setting the innerHTML of the paragraph
+            cookiesParagraph.innerHTML = cookieText;
+
+            // Appending the paragraph to the bottom of the page
+            document.body.appendChild(cookiesParagraph);
+        }
+    </script>
 </body>
 </html>
