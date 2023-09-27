@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neville's Cookies Platform</title>
+</head>
+<body>
+        <div id="loginForm" style="display: none;">
+            <h2>Login to the website</h2>
+            <input type="text" placeholder="Firstname" id="firstname" required="true">
+            <input type="text" placeholder="Email" id="email" required="true">
+            <button onclick="setCookiesAndShowWelcome()">Log me in</button>
+        </div>
+    
+    <script>
+        // Function to set cookies with expiration date and specific path
+        function setCookies() {
+            const firstnameInput = document.getElementById('firstname');
+            const emailInput = document.getElementById('email');
+            
+            // Getting the current date and time
+            const now = new Date();
+            
+            // Calculating the expiration date (10 days from now)
+            const expirationDate = new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000); // 10 days in milliseconds
+            
+            // Setting the cookies with their respective values, expiration date, and path
+            document.cookie = `firstname=${firstnameInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+            document.cookie = `email=${emailInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+        }
+
+        // Function to read a cookie by name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName.trim() === name) {
+                    return decodeURIComponent(cookieValue);
+                }
+            }
+            return ''; // Returning an empty string if the cookie does not exist
+        }
+
+        // Function to show the login form
+        function showForm() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const loginForm = document.getElementById('loginForm');
+            
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            loginForm.style.display = 'block';
+        }
+
+        // Function to hide the login form
+        function hideForm() {
+            const loginForm = document.getElementById('loginForm');
+            loginForm.style.display = 'none';
+        }
+
+        // Function to delete cookies and show the login form
+        function deleteCookiesAndShowForm() {
+            document.cookie = 'firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            showForm();
+        }
+
+        // Function to set cookies and show the welcome message
+        function setCookiesAndShowWelcome() {
+            setCookies();
+            showWelcomeMessageOrForm();
+        }
+
+        // Function to show the welcome message or the login form
+        function showWelcomeMessageOrForm() {
+            const firstnameCookie = getCookie('firstname');
+            const welcomeMessage = document.createElement('h1');
+            
+            if (firstnameCookie) {
+                // When User is logged in
+                welcomeMessage.innerHTML = `Welcome ${firstnameCookie} <a href="#" onclick="deleteCookiesAndShowForm()" style="font-weight: normal; font-style: italic; margin-left: 10px;">(logout)</a>`;
+            } else {
+                // When User is not logged in
+                showForm();
+                return;
+            }
+            
+            document.body.innerHTML = ''; // Clears the body
+            document.body.appendChild(welcomeMessage);
+        }
+
+        // Initial call to show the welcome message or the login form
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+</html>

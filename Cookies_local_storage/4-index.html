@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neville's Cookies Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+</head>
+<body>
+        <div id="loginForm" style="display: none;">
+            <h2>Login to the website</h2>
+            <input type="text" placeholder="Firstname" id="firstname" required="true">
+            <input type="text" placeholder="Email" id="email" required="true">
+            <button onclick="setCookiesAndShowWelcome()">Log me in</button>
+        </div>
+    <script>
+        // Function to show the login form
+        function showForm() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const loginForm = document.getElementById('loginForm');
+            
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            loginForm.style.display = 'block';
+        }
+
+        // Function to hide the login form
+        function hideForm() {
+            const loginForm = document.getElementById('loginForm');
+            loginForm.style.display = 'none';
+        }
+
+        // Function to delete cookies and show the login form
+        function deleteCookiesAndShowForm() {
+            // Using js-cookie to remove the cookies
+            Cookies.remove('firstname');
+            Cookies.remove('email');
+            showForm();
+        }
+
+        // Function to set cookies and show the welcome message
+        function setCookiesAndShowWelcomeMessage() {
+            const firstnameInput = document.getElementById('firstname');
+            const emailInput = document.getElementById('email');
+            
+            // Using js-cookie to set the cookies with expiration date and path
+            Cookies.set('firstname', firstnameInput.value, { expires: 10, path: '/' });
+            Cookies.set('email', emailInput.value, { expires: 10, path: '/' });
+
+            showWelcomeMessageOrForm();
+        }
+
+        // Function to show the welcome message or the login form
+        function showWelcomeMessageOrForm() {
+            const firstnameCookie = Cookies.get('firstname');
+            const welcomeMessage = document.createElement('h1');
+            
+            if (firstnameCookie) {
+                // User is logged in
+                welcomeMessage.innerHTML = `Welcome ${firstnameCookie} <a href="#" onclick="deleteCookiesAndShowForm()" style="font-weight: normal; font-style: italic; margin-left: 10px;">(logout)</a>`;
+            } else {
+                // User is not logged in
+                showForm();
+                return;
+            }
+            
+            document.body.innerHTML = ''; // Clear the body
+            document.body.appendChild(welcomeMessage);
+        }
+
+        // Initial call to show the welcome message or the login form
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+</html>

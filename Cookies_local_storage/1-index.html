@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neville's Cookies Platform</title>
+</head>
+<body>
+    <h1>Login to the website</h1>
+        <form>
+            <input type="text" placeholder="Firstname" id="firstname" required="true">
+            <input type="text" placeholder="Email" id="email" required="true">
+            <button onclick="setCookies()">Log me in</button>
+        </form>
+    <br>
+    <h1>Cookies</h1>
+        <button onclick="showCookies()">Show the cookies</button>
+<script>
+        // Function to set cookies with expiration date and specific path
+        function setCookies() {
+            const firstnameInput = document.getElementById('firstname');
+            const emailInput = document.getElementById('email');
+            
+            // Getting the current date and time
+            const now = new Date();
+            
+            // Calculating the expiration date (10 days from now)
+            const expirationDate = new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000); // 10 days in milliseconds
+            
+            // Setting the cookies with their respective values, expiration date, and path
+            document.cookie = `firstname=${firstnameInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+            document.cookie = `email=${emailInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+        }
+
+        // Function to show cookies
+        function showCookies() {
+            const cookiesParagraph = document.createElement('p');
+            
+            // Getting the cookies
+            const cookies = document.cookie.split(';');
+            
+            // Initializing a variable to store the cookie text
+            let cookieText = 'Cookies: ';
+
+            // Looping through the cookies and append them to the text
+            cookies.forEach(cookie => {
+                cookieText += cookie.trim() + ' ';
+            });
+
+            // Setting the innerHTML of the paragraph
+            cookiesParagraph.innerHTML = cookieText;
+
+            // Appending the paragraph to the bottom of the page
+            document.body.appendChild(cookiesParagraph);
+        }
+    </script>
+</body>
+</html>

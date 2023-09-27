@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neville's Cookies Platform</title>
+</head>
+<body>
+    <h1>Login to the website</h1>
+        <form>
+            <input type="text" placeholder="Firstname" id="firstname" required="true">
+            <input type="text" placeholder="Email" id="email" required="true">
+            <button onclick="setCookies()">Log me in</button>
+        </form>
+    <br>
+    <h1>Cookies</h1>
+        <button onclick="showCookies()">Show the cookies</button>
+<script>
+        // Function to set cookies with expiration date and specific path
+        function setCookies() {
+            const firstnameInput = document.getElementById('firstname');
+            const emailInput = document.getElementById('email');
+            
+            // Getting the current date and time
+            const now = new Date();
+            
+            // Calculating the expiration date (10 days from now)
+            const expirationDate = new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000); // 10 days in milliseconds
+            
+            // Setting the cookies with their respective values, expiration date, and path
+            document.cookie = `firstname=${firstnameInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+            document.cookie = `email=${emailInput.value}; expires=${expirationDate.toUTCString()}; path=/`;
+        }
+
+        // Function to read a cookie by name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName.trim() === name) {
+                    return decodeURIComponent(cookieValue);
+                }
+            }
+            return ''; // Returning an empty string if the cookie does not exist
+        }
+
+        // Function to show cookies
+        function showCookies() {
+            const emailCookie = getCookie('email');
+            const firstnameCookie = getCookie('firstname');
+
+            const cookiesParagraph = document.createElement('p');
+
+            // Setting the innerHTML of the paragraph
+            cookiesParagraph.innerHTML = `Email: ${emailCookie} - Firstname: ${firstnameCookie}`;
+
+            // Appending the paragraph to the bottom of the page
+            document.body.appendChild(cookiesParagraph);
+        }
+    </script>
+</body>
+</html>
